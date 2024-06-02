@@ -1,0 +1,47 @@
+﻿<Page
+    x:Class="RBACSample.Views.Pages.DashboardPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:converters="clr-namespace:RBACSample.Converters"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:RBACSample.Views.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    Title="DashboardPage"
+    mc:Ignorable="d">
+
+    <Page.Resources>
+        <converters:UserTypeToBooleanConverter x:Key="UserTypeToBooleanConverter" />
+    </Page.Resources>
+
+    <Border
+        d:Background="White"
+        d:Height="30"
+        d:Width="800">
+        <UniformGrid Columns="6">
+            <Button
+                Margin="8,0,8,0"
+                Content="Income"
+                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=2}" />
+            <Button
+                Margin="8,0,8,0"
+                Content="Expense"
+                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=2}" />
+            <Button
+                Margin="8,0,8,0"
+                Content="Report"
+                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=1}" />
+            <Button
+                Margin="8,0,8,0"
+                Content="Client"
+                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=3}" />
+            <Button
+                Margin="8,0,8,0"
+                Content="Invoice"
+                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=2}" />
+            <Button
+                Margin="8,0,8,0"
+                Content="Labour"
+                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=4}" />
+        </UniformGrid>
+    </Border>
+</Page>

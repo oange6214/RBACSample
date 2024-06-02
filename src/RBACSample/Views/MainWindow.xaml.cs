@@ -6,15 +6,9 @@ namespace RBACSample;
 
 public partial class MainWindow : Window, IWindow
 {
-    public MainWindow(
-        MainWindowViewModel viewModel
-        )
+    public MainWindow(MainWindowViewModel viewModel)
     {
-        ViewModel = viewModel;
-        DataContext = this;
-
+        DataContext = viewModel;
         InitializeComponent();
     }
-
-    public MainWindowViewModel ViewModel { get; set; }
 }
