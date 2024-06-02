@@ -2,7 +2,7 @@
 using RBACSample.Data;
 using RBACSample.Entities;
 
-namespace RBACSample.Services;
+namespace RBACSample.Repository;
 
 public class UserRepository : IUserRepository
 {

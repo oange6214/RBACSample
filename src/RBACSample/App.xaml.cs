@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using RBACSample.Data;
 using RBACSample.Models;
-using RBACSample.Services;
+using RBACSample.Repository;
 using RBACSample.ViewModels;
 using RBACSample.Views;
 using RBACSample.Views.Pages;
@@ -16,12 +16,13 @@ public partial class App : Application
     private IHost _host = Host.CreateDefaultBuilder()
             .ConfigureServices((hostContext, services) =>
             {
+                // Configuration
                 var config = new ConfigurationBuilder()
                     .AddUserSecrets<AppConfig>()
                     .Build();
 
+                // Database and repository
                 services.AddNpgsql<RoleDbContext>(config["ConnectionStrings:Role_DB"]);
-
                 services.AddSingleton<IUserRepository, UserRepository>();
 
                 // Register view model

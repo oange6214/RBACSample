@@ -1,12 +1,10 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using RBACSample.Commons;
-using RBACSample.Data;
 using RBACSample.Entities;
-using RBACSample.Services;
+using RBACSample.Repository;
 using RBACSample.Views.Pages;
 using System.Windows.Controls;
 
@@ -18,13 +16,13 @@ public partial class LoginViewModel : ObservableRecipient
     private readonly IUserRepository _userRepository;
 
     [ObservableProperty]
-    private string _username = string.Empty;
+    private string _infomation = string.Empty;
 
     [ObservableProperty]
     private string _password = string.Empty;
 
     [ObservableProperty]
-    private string _infomation = string.Empty;
+    private string _username = string.Empty;
 
     public LoginViewModel(
         IServiceProvider serviceProvider,

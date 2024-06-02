@@ -1,6 +1,6 @@
 ﻿using RBACSample.Entities;
 
-namespace RBACSample.Services;
+namespace RBACSample.Repository;
 
 public interface IUserRepository
 {
