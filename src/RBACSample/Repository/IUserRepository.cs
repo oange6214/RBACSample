@@ -4,5 +4,7 @@ namespace RBACSample.Repository;
 
 public interface IUserRepository
 {
-    Task<TbLoginrole> GetUser(TbLoginrole user);
+    Task<TbLoginrole> GetUserByUsername(string username);
+
+    Task CreateUser(TbLoginrole user);
 }

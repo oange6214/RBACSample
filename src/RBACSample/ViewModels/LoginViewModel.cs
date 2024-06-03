@@ -4,8 +4,11 @@ using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using RBACSample.Commons;
 using RBACSample.Entities;
+using RBACSample.Helper;
 using RBACSample.Repository;
+using RBACSample.Services;
 using RBACSample.Views.Pages;
+using System.Security;
 using System.Windows.Controls;
 
 namespace RBACSample.ViewModels;
@@ -13,7 +16,7 @@ namespace RBACSample.ViewModels;
 public partial class LoginViewModel : ObservableRecipient
 {
     private readonly IServiceProvider _serviceProvider;
-    private readonly IUserRepository _userRepository;
+    private readonly IUserService _userService;
 
     [ObservableProperty]
     private string _infomation = string.Empty;
@@ -22,28 +25,27 @@ public partial class LoginViewModel : ObservableRecipient
     private string _password = string.Empty;
 
     [ObservableProperty]
+    private SecureString _securePassword;
+
+    [ObservableProperty]
     private string _username = string.Empty;
 
     public LoginViewModel(
         IServiceProvider serviceProvider,
-        IUserRepository userRepository)
+        IUserService userService)
     {
         _serviceProvider = serviceProvider;
-        _userRepository = userRepository;
+        _userService = userService;
     }
 
     [RelayCommand]
     private async Task Login()
     {
-        var result = await _userRepository.GetUser(new TbLoginrole
-        {
-            Username = _username,
-            PasswordHash = _password
-        });
+        var isValidUser = await _userService.VerifyUser(_username, _securePassword);
 
-        if (result != null)
+        if (isValidUser)
         {
-            var IsUserType = Enum.TryParse(result.Username.ToUpper(), out UserType userType);
+            var IsUserType = Enum.TryParse(_username.ToUpper(), out UserType userType);
 
             if (IsUserType)
             {

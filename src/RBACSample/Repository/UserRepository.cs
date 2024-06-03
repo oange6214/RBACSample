@@ -13,12 +13,15 @@ public class UserRepository : IUserRepository
         _dbContext = dbContext;
     }
 
-    public async Task<TbLoginrole> GetUser(TbLoginrole user)
+    public async Task<TbLoginrole> GetUserByUsername(string username)
     {
-        var result = await _dbContext.TbLoginroles
-                                       .FirstOrDefaultAsync(item =>
-                                           item.Username == user.Username && item.PasswordHash == user.PasswordHash);
+        return await _dbContext.TbLoginroles
+                               .FirstOrDefaultAsync(item => item.Username == username);
+    }
 
-        return result ?? null;
+    public async Task CreateUser(TbLoginrole user)
+    {
+        await _dbContext.TbLoginroles.AddAsync(user);
+        await _dbContext.SaveChangesAsync();
     }
 }

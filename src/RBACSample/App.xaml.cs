@@ -4,6 +4,7 @@ using Microsoft.Extensions.Hosting;
 using RBACSample.Data;
 using RBACSample.Models;
 using RBACSample.Repository;
+using RBACSample.Services;
 using RBACSample.ViewModels;
 using RBACSample.Views;
 using RBACSample.Views.Pages;
@@ -24,6 +25,7 @@ public partial class App : Application
                 // Database and repository
                 services.AddNpgsql<RoleDbContext>(config["ConnectionStrings:Role_DB"]);
                 services.AddSingleton<IUserRepository, UserRepository>();
+                services.AddSingleton<IUserService, UserService>();
 
                 // Register view model
                 services.AddSingleton<DashboardViewModel>();
