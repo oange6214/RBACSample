@@ -1,6 +1,7 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using RBACSample.Helper;
 using RBACSample.Services;
 using RBACSample.Views;
 using System.Runtime.InteropServices;
@@ -44,7 +45,7 @@ public partial class RegisterViewModel : ObservableObject
             return;
         }
 
-        if (!SecureStringEqual(_password, _confirmPassword))
+        if (!PasswordHasher.SSEqual(_password, _confirmPassword))
         {
             InfoMessage = "Passwords do not match.";
             return;
@@ -59,30 +60,5 @@ public partial class RegisterViewModel : ObservableObject
     private async Task Back()
     {
         WeakReferenceMessenger.Default.Send<string>(nameof(LoginPage));
-    }
-
-    private bool SecureStringEqual(SecureString a, SecureString b)
-    {
-        if (a.Length != b.Length)
-            return false;
-
-        var ptrA = Marshal.SecureStringToBSTR(a);
-        var ptrB = Marshal.SecureStringToBSTR(b);
-
-        try
-        {
-            for (int i = 0; i < a.Length; i++)
-            {
-                if (Marshal.ReadByte(ptrA, i) != Marshal.ReadByte(ptrB, i))
-                    return false;
-            }
-        }
-        finally
-        {
-            Marshal.ZeroFreeBSTR(ptrA);
-            Marshal.ZeroFreeBSTR(ptrB);
-        }
-
-        return true;
     }
 }

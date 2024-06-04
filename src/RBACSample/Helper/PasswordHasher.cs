@@ -40,6 +40,31 @@ public class PasswordHasher
         return enteredHash.Equals(storedHash);
     }
 
+    public static bool SSEqual(SecureString a, SecureString b)
+    {
+        if (a.Length != b.Length)
+            return false;
+
+        var ptrA = Marshal.SecureStringToBSTR(a);
+        var ptrB = Marshal.SecureStringToBSTR(b);
+
+        try
+        {
+            for (int i = 0; i < a.Length; i++)
+            {
+                if (Marshal.ReadByte(ptrA, i) != Marshal.ReadByte(ptrB, i))
+                    return false;
+            }
+        }
+        finally
+        {
+            Marshal.ZeroFreeBSTR(ptrA);
+            Marshal.ZeroFreeBSTR(ptrB);
+        }
+
+        return true;
+    }
+
     private static string GenerateSalt(int saltSize = SaltSize)
     {
         var randomNumberGenerator = RandomNumberGenerator.Create();
