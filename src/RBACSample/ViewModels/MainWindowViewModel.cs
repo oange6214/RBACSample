@@ -16,7 +16,9 @@ public partial class MainWindowViewModel : ObservableRecipient
     {
         CurrentPage = serviceProvider.GetService<LoginPage>();
 
-        WeakReferenceMessenger.Default.Register<string>(typeof(MainWindowViewModel), (recipient, page) =>
+        WeakReferenceMessenger.Default.Register<string>(
+            typeof(MainWindowViewModel),
+            (recipient, page) =>
         {
             switch (page)
             {
