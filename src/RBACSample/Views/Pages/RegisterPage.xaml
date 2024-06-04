@@ -10,7 +10,10 @@
     d:DesignWidth="800"
     mc:Ignorable="d">
 
-    <Grid>
+    <Border
+        d:Background="White"
+        d:Height="600"
+        d:Width="800">
         <StackPanel Margin="20">
             <TextBlock Margin="0,0,0,10" Text="Username" />
             <TextBox Margin="0,0,0,20" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
@@ -26,6 +29,7 @@
                 Text="{Binding InfoMessage}" />
 
             <Button Command="{Binding RegisterCommand}" Content="Register" />
+            <Button Command="{Binding BackCommand}" Content="Back" />
         </StackPanel>
-    </Grid>
+    </Border>
 </Page>

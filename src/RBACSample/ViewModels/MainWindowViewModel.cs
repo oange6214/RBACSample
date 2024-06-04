@@ -2,6 +2,7 @@
 using CommunityToolkit.Mvvm.Messaging;
 using Microsoft.Extensions.DependencyInjection;
 using RBACSample.Views;
+using RBACSample.Views.Pages;
 using System.Windows.Controls;
 
 namespace RBACSample.ViewModels;
@@ -15,9 +16,22 @@ public partial class MainWindowViewModel : ObservableRecipient
     {
         CurrentPage = serviceProvider.GetService<LoginPage>();
 
-        WeakReferenceMessenger.Default.Register<Page>(typeof(MainWindowViewModel), (recipient, page) =>
+        WeakReferenceMessenger.Default.Register<string>(typeof(MainWindowViewModel), (recipient, page) =>
         {
-            CurrentPage = page;
+            switch (page)
+            {
+                case nameof(LoginPage):
+                    CurrentPage = serviceProvider.GetRequiredService<LoginPage>();
+                    break;
+
+                case nameof(DashboardPage):
+                    CurrentPage = serviceProvider.GetRequiredService<DashboardPage>();
+                    break;
+
+                case nameof(RegisterPage):
+                    CurrentPage = serviceProvider.GetRequiredService<RegisterPage>();
+                    break;
+            }
         });
     }
 }

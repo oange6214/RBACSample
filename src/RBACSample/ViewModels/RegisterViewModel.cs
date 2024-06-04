@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using CommunityToolkit.Mvvm.Messaging;
 using RBACSample.Services;
+using RBACSample.Views;
 using System.Runtime.InteropServices;
 using System.Security;
 
@@ -51,6 +53,12 @@ public partial class RegisterViewModel : ObservableObject
         var result = await _userService.RegisterUser(_username, _password);
 
         InfoMessage = result ? "Registration successful!" : "User already exists.";
+    }
+
+    [RelayCommand]
+    private async Task Back()
+    {
+        WeakReferenceMessenger.Default.Send<string>(nameof(LoginPage));
     }
 
     private bool SecureStringEqual(SecureString a, SecureString b)
