@@ -59,4 +59,10 @@ public partial class LoginViewModel : ObservableRecipient
             Infomation = "Error login";
         }
     }
+
+    [RelayCommand]
+    private async Task CreateUser()
+    {
+        WeakReferenceMessenger.Default.Send<Page>(_serviceProvider.GetService<RegisterPage>());
+    }
 }

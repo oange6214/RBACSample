@@ -21,6 +21,8 @@ public class UserRepository : IUserRepository
 
     public async Task CreateUser(TbLoginrole user)
     {
+        user.Name = "NAME";
+        user.Type = "TYPE";
         await _dbContext.TbLoginroles.AddAsync(user);
         await _dbContext.SaveChangesAsync();
     }

@@ -44,6 +44,7 @@
                     VerticalAlignment="Center"
                     Text="Password: " />
                 <PasswordBox
+                    x:Name="pb"
                     Grid.Column="1"
                     VerticalContentAlignment="Center"
                     PasswordChanged="PasswordBox_PasswordChanged" />
@@ -53,6 +54,8 @@
                 Grid.Row="2"
                 Command="{Binding LoginCommand}"
                 Content="Login" />
+
+            <Button Command="{Binding CreateUserCommand}" Content="Create user" />
 
             <TextBlock Text="{Binding Infomation}" />
         </StackPanel>

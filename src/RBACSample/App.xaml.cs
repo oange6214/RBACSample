@@ -28,11 +28,13 @@ public partial class App : Application
                 services.AddSingleton<IUserService, UserService>();
 
                 // Register view model
+                services.AddSingleton<RegisterViewModel>();
                 services.AddSingleton<DashboardViewModel>();
                 services.AddSingleton<LoginViewModel>();
                 services.AddSingleton<MainWindowViewModel>();
 
                 // Register view
+                services.AddSingleton<RegisterPage>();
                 services.AddSingleton<DashboardPage>();
                 services.AddSingleton<LoginPage>();
 
