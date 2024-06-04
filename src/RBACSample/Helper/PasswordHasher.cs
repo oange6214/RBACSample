@@ -30,8 +30,7 @@ public class PasswordHasher
 
     public static bool VerifyPassword(SecureString enteredPassword, string storedHash)
     {
-        //var saltLength = (int)Math.Ceiling((double)SaltSize * 4 / 3);
-        var salt = storedHash.Substring(storedHash.Length - Base64StringSize);
+        var salt = storedHash[^Base64StringSize..];
         var combinedBytes = Encoding.UTF8.GetBytes(ConvertToUnsecureString(enteredPassword) + salt);
 
         var hashBytes = SHA256.HashData(combinedBytes);
