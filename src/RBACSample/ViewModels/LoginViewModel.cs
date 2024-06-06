@@ -1,7 +1,8 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
-using RBACSample.Commons;
+using RBACSample.Enums;
+using RBACSample.Models;
 using RBACSample.Services;
 using RBACSample.Views.Pages;
 using System.Security;
@@ -10,7 +11,9 @@ namespace RBACSample.ViewModels;
 
 public partial class LoginViewModel : ObservableRecipient
 {
+    private readonly IAuthenticationService _authenticationService;
     private readonly IUserService _userService;
+    private readonly IUserSessionService _userSessionService;
 
     [ObservableProperty]
     private string _infomation = string.Empty;
@@ -25,30 +28,39 @@ public partial class LoginViewModel : ObservableRecipient
     private string _username = string.Empty;
 
     public LoginViewModel(
-        IUserService userService)
+        IAuthenticationService authenticationService,
+        IUserService userService,
+        IUserSessionService userSessionService
+        )
     {
         _userService = userService;
+        _authenticationService = authenticationService;
+        _userSessionService = userSessionService;
     }
 
     [RelayCommand]
     private async Task Login()
     {
-        var isValidUser = await _userService.VerifyUser(_username, _securePassword);
+        var isValidUser = await _authenticationService.VerifyUser(_username, _securePassword);
 
         if (isValidUser)
         {
-            var IsUserType = Enum.TryParse(_username.ToUpper(), out UserType userType);
+            var IsUserType = Enum.TryParse(_username.ToUpper(), out UserRole userType);
 
             if (IsUserType)
             {
-                UserInfo.UserType = userType;
+                _userSessionService.SetCurrentUser(new User
+                {
+                    Name = Username,
+                    Role = userType
+                });
 
                 WeakReferenceMessenger.Default.Send<string>(nameof(DashboardPage));
             }
         }
         else
         {
-            Infomation = "Error login";
+            Infomation = $"[Login Failed] Invalid username or password. ";
         }
     }
 

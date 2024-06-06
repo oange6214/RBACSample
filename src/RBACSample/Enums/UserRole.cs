@@ -1,6 +1,6 @@
-﻿namespace RBACSample.Commons;
+﻿namespace RBACSample.Enums;
 
-public enum UserType
+public enum UserRole
 {
     NONE = 0,
     OPERATOR = 1,

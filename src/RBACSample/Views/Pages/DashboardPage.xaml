@@ -6,7 +6,9 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RBACSample.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:RBACSample.ViewModels"
     Title="DashboardPage"
+    d:DataContext="{d:DesignInstance viewmodels:DashboardViewModel}"
     mc:Ignorable="d">
 
     <Page.Resources>
@@ -15,33 +17,54 @@
 
     <Border
         d:Background="White"
-        d:Height="30"
+        d:Height="600"
         d:Width="800">
-        <UniformGrid Columns="6">
-            <Button
-                Margin="8,0,8,0"
-                Content="Income"
-                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=2}" />
-            <Button
-                Margin="8,0,8,0"
-                Content="Expense"
-                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=2}" />
-            <Button
-                Margin="8,0,8,0"
-                Content="Report"
-                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=1}" />
-            <Button
-                Margin="8,0,8,0"
-                Content="Client"
-                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=3}" />
-            <Button
-                Margin="8,0,8,0"
-                Content="Invoice"
-                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=2}" />
-            <Button
-                Margin="8,0,8,0"
-                Content="Labour"
-                IsEnabled="{Binding PermissionLevel, Converter={StaticResource UserTypeToBooleanConverter}, ConverterParameter=4}" />
-        </UniformGrid>
+
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition />
+                <RowDefinition Height="auto" />
+            </Grid.RowDefinitions>
+
+            <Border Grid.Row="0">
+                <ContentControl Content="{Binding CurrentView}" />
+            </Border>
+
+            <UniformGrid
+                Grid.Row="1"
+                Margin="5"
+                Columns="6">
+                <Button
+                    Margin="8,0,8,0"
+                    Command="{Binding IncomeCommand}"
+                    CommandParameter="Income"
+                    Content="Income" />
+                <Button
+                    Margin="8,0,8,0"
+                    Command="{Binding ExpenseCommand}"
+                    CommandParameter="Expense"
+                    Content="Expense" />
+                <Button
+                    Margin="8,0,8,0"
+                    Command="{Binding ReportCommand}"
+                    CommandParameter="Report"
+                    Content="Report" />
+                <Button
+                    Margin="8,0,8,0"
+                    Command="{Binding ClientCommand}"
+                    CommandParameter="Client"
+                    Content="Client" />
+                <Button
+                    Margin="8,0,8,0"
+                    Command="{Binding InvoiceCommand}"
+                    CommandParameter="Invoice"
+                    Content="Invoice" />
+                <Button
+                    Margin="8,0,8,0"
+                    Command="{Binding LabourCommand}"
+                    CommandParameter="Labour"
+                    Content="Labour" />
+            </UniformGrid>
+        </Grid>
     </Border>
 </Page>

@@ -8,6 +8,7 @@ using RBACSample.Services;
 using RBACSample.ViewModels;
 using RBACSample.Views;
 using RBACSample.Views.Pages;
+using RBACSample.Views.SubViews;
 using System.Windows;
 
 namespace RBACSample;
@@ -24,16 +25,26 @@ public partial class App : Application
 
                 // Database and repository
                 services.AddNpgsql<RoleDbContext>(config["ConnectionStrings:Role_DB"]);
+                services.AddSingleton<IAuthorizationService, AuthorizationService>();
+                services.AddSingleton<IAuthenticationService, AuthenticationService>();
+
+                services.AddSingleton<IUserSessionService, UserSessionService>();
                 services.AddSingleton<IUserRepository, UserRepository>();
                 services.AddSingleton<IUserService, UserService>();
 
                 // Register view model
+                services.AddSingleton<IncomeViewModel>();
+
                 services.AddSingleton<RegisterViewModel>();
                 services.AddSingleton<DashboardViewModel>();
                 services.AddSingleton<LoginViewModel>();
+
                 services.AddSingleton<MainWindowViewModel>();
 
                 // Register view
+                services.AddSingleton<IncomeView>();
+
+                // Register page
                 services.AddSingleton<RegisterPage>();
                 services.AddSingleton<DashboardPage>();
                 services.AddSingleton<LoginPage>();

@@ -15,12 +15,15 @@
         d:Background="White"
         d:Height="600"
         d:Width="800">
-        <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel
+            Width="300"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
 
-            <Grid Grid.Row="0" Margin="0,0,0,4">
+            <Grid Grid.Row="0" Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition MinWidth="100" />
+                    <ColumnDefinition Width=".5*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
@@ -33,10 +36,10 @@
                     Text="{Binding Username}" />
             </Grid>
 
-            <Grid Grid.Row="1" Margin="0,0,0,4">
+            <Grid Grid.Row="1" Margin="0,0,0,8">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
-                    <ColumnDefinition MinWidth="100" />
+                    <ColumnDefinition Width=".5*" />
+                    <ColumnDefinition />
                 </Grid.ColumnDefinitions>
 
                 <TextBlock
@@ -50,14 +53,24 @@
                     PasswordChanged="PasswordBox_PasswordChanged" />
             </Grid>
 
-            <Button
-                Grid.Row="2"
-                Command="{Binding LoginCommand}"
-                Content="Login" />
+            <Grid Grid.Row="2" Margin="0,0,0,8">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width=".5*" />
+                </Grid.ColumnDefinitions>
 
-            <Button Command="{Binding CreateUserCommand}" Content="Create user" />
+                <Button
+                    Grid.Column="0"
+                    Command="{Binding LoginCommand}"
+                    Content="Login" />
 
-            <TextBlock Text="{Binding Infomation}" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding CreateUserCommand}"
+                    Content="Create user" />
+            </Grid>
+
+            <TextBlock Margin="0,0,0,8" Text="{Binding Infomation}" />
         </StackPanel>
     </Border>
 </Page>

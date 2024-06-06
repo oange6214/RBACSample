@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.Mvvm.Messaging;
+using RBACSample.Enums;
 using RBACSample.Helper;
+using RBACSample.Models;
 using RBACSample.Services;
 using RBACSample.Views;
-using System.Runtime.InteropServices;
 using System.Security;
 
 namespace RBACSample.ViewModels;
@@ -51,7 +52,12 @@ public partial class RegisterViewModel : ObservableObject
             return;
         }
 
-        var result = await _userService.RegisterUser(_username, _password);
+        var result = await _userService.RegisterUser(new User
+        {
+            Name = _username,
+            Password = _password,
+            Role = UserRole.OPERATOR
+        });
 
         InfoMessage = result ? "Registration successful!" : "User already exists.";
     }

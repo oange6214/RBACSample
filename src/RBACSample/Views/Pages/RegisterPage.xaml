@@ -5,16 +5,19 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:RBACSample.Views.Pages"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewmodels="clr-namespace:RBACSample.ViewModels"
     Title="RegisterPage"
-    d:DesignHeight="450"
-    d:DesignWidth="800"
+    d:DataContext="{d:DesignInstance viewmodels:RegisterViewModel}"
     mc:Ignorable="d">
 
     <Border
         d:Background="White"
         d:Height="600"
         d:Width="800">
-        <StackPanel Margin="20">
+        <StackPanel
+            Width="300"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
             <TextBlock Margin="0,0,0,10" Text="Username" />
             <TextBox Margin="0,0,0,20" Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}" />
 
@@ -28,8 +31,20 @@
                 Foreground="Red"
                 Text="{Binding InfoMessage}" />
 
-            <Button Command="{Binding RegisterCommand}" Content="Register" />
-            <Button Command="{Binding BackCommand}" Content="Back" />
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition Width=".5*" />
+                </Grid.ColumnDefinitions>
+                <Button
+                    Grid.Column="0"
+                    Command="{Binding RegisterCommand}"
+                    Content="Register" />
+                <Button
+                    Grid.Column="1"
+                    Command="{Binding BackCommand}"
+                    Content="Back" />
+            </Grid>
         </StackPanel>
     </Border>
 </Page>
