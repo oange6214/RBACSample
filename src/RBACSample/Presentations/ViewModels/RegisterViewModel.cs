@@ -14,6 +14,9 @@ public partial class RegisterViewModel : ObservableObject
     private string _username = default!;
 
     [ObservableProperty]
+    private string _email = default!;
+
+    [ObservableProperty]
     private SecureString _password = default!;
 
     [ObservableProperty]
@@ -21,6 +24,12 @@ public partial class RegisterViewModel : ObservableObject
 
     [ObservableProperty]
     private string _infoMessage = default!;
+
+    [ObservableProperty]
+    private UserRole _selectedRoleType = default!;
+
+    [ObservableProperty]
+    private IEnumerable<UserRole> _roleType = Enum.GetValues(typeof(UserRole)).Cast<UserRole>();
 
     public RegisterViewModel(IUserService userService)
     {
@@ -51,8 +60,9 @@ public partial class RegisterViewModel : ObservableObject
         var result = await _userService.RegisterUser(new UserDto
         {
             Username = Username,
+            Email = Email,
             PasswordHash = Password,
-            Role = UserRole.OPERATOR
+            Role = SelectedRoleType,
         });
 
         InfoMessage = result ? "Registration successful!" : "UserDto already exists.";

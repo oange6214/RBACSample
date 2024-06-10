@@ -30,7 +30,9 @@ public class UserService : IUserService
         await _userRepository.CreateUser(new UserEntity
         {
             Username = request.Username,
-            PasswordHash = PasswordHasher.HashPassword(request.PasswordHash)
+            Email = request.Email,
+            PasswordHash = PasswordHasher.HashPassword(request.PasswordHash),
+            RoleId = (int)request.Role
         });
 
         return true;

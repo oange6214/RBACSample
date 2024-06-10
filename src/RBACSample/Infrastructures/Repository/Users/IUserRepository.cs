@@ -6,5 +6,7 @@ public interface IUserRepository : IRepository<UserEntity>
 {
     Task<UserEntity> GetUserByUsername(string username);
 
+    Task<UserEntity> GetUserWithRoleAndResourcesByUsername(string username);
+
     Task CreateUser(UserEntity user);
 }

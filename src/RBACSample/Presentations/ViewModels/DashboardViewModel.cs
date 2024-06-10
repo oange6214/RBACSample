@@ -31,7 +31,7 @@ public partial class DashboardViewModel : ObservableRecipient
         UserResouceDto newUser = new()
         {
             Username = user.Username,
-            Resouce = resource
+            Resource = resource
         };
 
         var authorized = _authorizationService.AuthorizeUser(newUser)

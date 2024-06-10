@@ -12,46 +12,11 @@ public class AuthorizationService : IAuthorizationService
     public AuthorizationService(IUserRepository userRepository)
     {
         _userRepository = userRepository;
-        _rolePermissions = new Dictionary<UserRole, List<string>>
-        {
-            {
-                UserRole.OPERATOR,
-                new List<string>
-                {
-                    "Income",
-                    "Expense",
-                    "Labour"
-                }
-            },
-            {
-                UserRole.ENGINEER,
-                new List<string>
-                {
-                    "Income",
-                    "Expense",
-                    "Report",
-                    "Client",
-                    "Labour"
-                }
-            },
-            {
-                UserRole.ADMIN,
-                new List<string>
-                {
-                    "Income",
-                    "Expense",
-                    "Report",
-                    "Client",
-                    "Invoice",
-                    "Labour"
-                }
-            }
-        };
     }
 
     public async Task<bool> AuthorizeUser(UserResouceDto request)
     {
-        var user = await _userRepository.GetUserByUsername(request.Username);
+        var user = await _userRepository.GetUserWithRoleAndResourcesByUsername(request.Username);
         if (user == null)
         {
             return false;
@@ -60,20 +25,15 @@ public class AuthorizationService : IAuthorizationService
         var newUser = new UserDto
         {
             Username = request.Username,
-            //Role = user.Type switch
-            //{
-            //    "operator" => UserRole.OPERATOR,
-            //    "engineer" => UserRole.ENGINEER,
-            //    "admin" => UserRole.ADMIN,
-            //    "super" => UserRole.SUPERENGINEER,
-            //}
+            Role = user.RoleId switch
+            {
+                1 => UserRole.OPERATOR,
+                2 => UserRole.ENGINEER,
+                3 => UserRole.ADMIN,
+                4 => UserRole.SUPERENGINEER,
+            }
         };
 
-        if (_rolePermissions.TryGetValue(newUser.Role, out var allowedActions))
-        {
-            return allowedActions.Contains(request.Resouce);
-        }
-
-        return false;
+        return user.Role.RoleResources.Any(x => x.Resource.Name == request.Resource);
     }
 }

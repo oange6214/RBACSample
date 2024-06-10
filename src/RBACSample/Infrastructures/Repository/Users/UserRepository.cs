@@ -21,6 +21,17 @@ public class UserRepository : Repository<UserEntity>, IUserRepository
         return user;
     }
 
+    public async Task<UserEntity?> GetUserWithRoleAndResourcesByUsername(string username)
+    {
+        var user = await _dbContext.Users
+            .Include(u => u.Role)
+            .ThenInclude(r => r.RoleResources)
+            .ThenInclude(rr => rr.Resource)
+            .FirstOrDefaultAsync(item => item.Username == username);
+
+        return user;
+    }
+
     public async Task CreateUser(UserEntity user)
     {
         await _dbContext.Users.AddAsync(user);
