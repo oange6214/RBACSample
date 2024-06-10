@@ -32,8 +32,8 @@ namespace RBACSample.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
+                        .HasMaxLength(128)
+                        .HasColumnType("character varying(128)")
                         .HasColumnName("name");
 
                     b.Property<string>("Url")
@@ -63,13 +63,39 @@ namespace RBACSample.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("character varying(255)")
+                        .HasMaxLength(50)
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
 
                     b.ToTable("roles");
+                });
+
+            modelBuilder.Entity("RBACSample.Domains.Entities.RoleResourceEntity", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("ResourceId")
+                        .HasColumnType("integer")
+                        .HasColumnName("resource_id");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer")
+                        .HasColumnName("role_id");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ResourceId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("role_resources");
                 });
 
             modelBuilder.Entity("RBACSample.Domains.Entities.UserEntity", b =>
@@ -93,7 +119,7 @@ namespace RBACSample.Migrations
                         .HasColumnType("character varying(128)")
                         .HasColumnName("password_hash");
 
-                    b.Property<int>("RoldId")
+                    b.Property<int>("RoleId")
                         .HasColumnType("integer")
                         .HasColumnName("role_id");
 
@@ -105,20 +131,51 @@ namespace RBACSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoldId");
+                    b.HasIndex("RoleId");
 
                     b.ToTable("users");
+                });
+
+            modelBuilder.Entity("RBACSample.Domains.Entities.RoleResourceEntity", b =>
+                {
+                    b.HasOne("RBACSample.Domains.Entities.ResourceEntity", "Resource")
+                        .WithMany("RoleResources")
+                        .HasForeignKey("ResourceId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("RBACSample.Domains.Entities.RoleEntity", "Role")
+                        .WithMany("RoleResources")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Resource");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("RBACSample.Domains.Entities.UserEntity", b =>
                 {
                     b.HasOne("RBACSample.Domains.Entities.RoleEntity", "Role")
-                        .WithMany()
-                        .HasForeignKey("RoldId")
+                        .WithMany("Users")
+                        .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("RBACSample.Domains.Entities.ResourceEntity", b =>
+                {
+                    b.Navigation("RoleResources");
+                });
+
+            modelBuilder.Entity("RBACSample.Domains.Entities.RoleEntity", b =>
+                {
+                    b.Navigation("RoleResources");
+
+                    b.Navigation("Users");
                 });
 #pragma warning restore 612, 618
         }
