@@ -39,7 +39,7 @@ public partial class App : Application
         //Add repositories and services with appropriate lifetimes
         services.AddTransient<IAuthorizationService, AuthorizationService>();
         services.AddTransient<IAuthenticationService, AuthenticationService>();
-        services.AddTransient<IUserSessionService, UserSessionService>();
+        services.AddSingleton<IUserSessionService, UserSessionService>();
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IUserService, UserService>();
 
