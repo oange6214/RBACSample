@@ -6,7 +6,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace RBACSample.Migrations
 {
     /// <inheritdoc />
-    public partial class initial_migrations : Migration
+    public partial class InitialCreate : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -32,7 +32,7 @@ namespace RBACSample.Migrations
                     id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     name = table.Column<string>(type: "character varying(255)", maxLength: 255, nullable: false),
-                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: false)
+                    description = table.Column<string>(type: "character varying(500)", maxLength: 500, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -48,24 +48,23 @@ namespace RBACSample.Migrations
                     username = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
                     password_hash = table.Column<string>(type: "character varying(128)", maxLength: 128, nullable: false),
                     email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    role_id = table.Column<int>(type: "integer", nullable: false),
-                    RoleId = table.Column<int>(type: "integer", nullable: false)
+                    role_id = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_users", x => x.id);
                     table.ForeignKey(
-                        name: "FK_users_roles_RoleId",
-                        column: x => x.RoleId,
+                        name: "FK_users_roles_role_id",
+                        column: x => x.role_id,
                         principalTable: "roles",
                         principalColumn: "id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_users_RoleId",
+                name: "IX_users_role_id",
                 table: "users",
-                column: "RoleId");
+                column: "role_id");
         }
 
         /// <inheritdoc />

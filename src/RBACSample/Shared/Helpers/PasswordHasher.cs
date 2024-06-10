@@ -82,6 +82,8 @@ public class PasswordHasher
         return true;
     }
 
+    #region Private Methods
+
     private static string GenerateSalt(int saltSize = SaltSize)
     {
         var randomNumberGenerator = RandomNumberGenerator.Create();
@@ -107,4 +109,6 @@ public class PasswordHasher
             Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
         }
     }
+
+    #endregion Private Methods
 }

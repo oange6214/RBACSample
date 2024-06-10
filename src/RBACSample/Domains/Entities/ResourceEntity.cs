@@ -11,10 +11,12 @@ public partial class ResourceEntity
     public int Id { get; set; }
 
     [Column("name")]
-    [StringLength(255)]
+    [StringLength(128)]
     public string Name { get; set; } = default!;
 
     [Column("url")]
     [StringLength(255)]
     public string Url { get; set; } = default!;
+
+    public ICollection<RoleResourceEntity> RoleResources { get; set; } = [];
 }

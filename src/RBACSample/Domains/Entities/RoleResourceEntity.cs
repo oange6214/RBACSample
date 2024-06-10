@@ -3,28 +3,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RBACSample.Domains.Entities;
 
-[Table("users")]
-public partial class UserEntity
+[Table("role_resources")]
+public partial class RoleResourceEntity
 {
     [Key]
     [Column("id")]
     public int Id { get; set; }
-
-    [Column("username")]
-    [StringLength(50)]
-    public string Username { get; set; } = default!;
-
-    [Column("password_hash")]
-    [StringLength(128)]
-    public string PasswordHash { get; set; } = default!;
-
-    [Column("email")]
-    [StringLength(50)]
-    public string Email { get; set; } = default!;
 
     [Column("role_id")]
     public int RoleId { get; set; } = default!;
 
     [ForeignKey(nameof(RoleId))]
     public RoleEntity Role { get; set; } = default!;
+
+    [Column("resource_id")]
+    public int ResourceId { get; set; } = default!;
+
+    [ForeignKey(nameof(ResourceId))]
+    public ResourceEntity Resource { get; set; } = default!;
 }

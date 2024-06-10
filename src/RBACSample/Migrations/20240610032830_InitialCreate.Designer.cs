@@ -11,8 +11,8 @@ using RBACSample.Infrastructures.Data;
 namespace RBACSample.Migrations
 {
     [DbContext(typeof(RoleDbContext))]
-    [Migration("20240608155851_initial_migrations")]
-    partial class initial_migrations
+    [Migration("20240610032830_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,6 @@ namespace RBACSample.Migrations
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Description")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("character varying(500)")
                         .HasColumnName("description");
@@ -101,9 +100,6 @@ namespace RBACSample.Migrations
                         .HasColumnType("integer")
                         .HasColumnName("role_id");
 
-                    b.Property<int>("RoleId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Username")
                         .IsRequired()
                         .HasMaxLength(50)
@@ -112,7 +108,7 @@ namespace RBACSample.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RoleId");
+                    b.HasIndex("RoldId");
 
                     b.ToTable("users");
                 });
@@ -121,7 +117,7 @@ namespace RBACSample.Migrations
                 {
                     b.HasOne("RBACSample.Domains.Entities.RoleEntity", "Role")
                         .WithMany()
-                        .HasForeignKey("RoleId")
+                        .HasForeignKey("RoldId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
