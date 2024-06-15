@@ -1,6 +1,7 @@
 ﻿using RBACSample.Applications.Services;
 using RBACSample.Domains.Dtos;
 using RBACSample.Domains.Enums;
+using RBACSample.Presentations.Views.Pages;
 using RBACSample.Shared.Helpers;
 using RBACSample.Views;
 
@@ -71,7 +72,7 @@ public partial class RegisterViewModel : ObservableObject
     [RelayCommand]
     private async Task Back()
     {
-        WeakReferenceMessenger.Default.Send<string>(nameof(LoginPage));
+        WeakReferenceMessenger.Default.Send<string>(nameof(LoginView));
         await Task.CompletedTask;
     }
 }

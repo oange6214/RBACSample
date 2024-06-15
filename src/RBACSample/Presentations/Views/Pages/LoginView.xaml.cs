@@ -1,13 +1,15 @@
 ﻿using RBACSample.ViewModels;
 
-namespace RBACSample.Views;
+namespace RBACSample.Presentations.Views.Pages;
 
-public partial class LoginPage : Page
+public partial class LoginView : UserControl
 {
-    public LoginPage(LoginViewModel viewModel)
+    public LoginView(LoginViewModel viewModel)
     {
         DataContext = viewModel;
-        InitializeComponent();
+        {
+            InitializeComponent();
+        }
     }
 
     private void PasswordBox_PasswordChanged(object sender, RoutedEventArgs e)

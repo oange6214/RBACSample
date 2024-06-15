@@ -1,5 +1,7 @@
 ﻿using RBACSample.Domains.Entities;
 using RBACSample.Infrastructures.Data;
+using System.Data.Common;
+using System.Net.Sockets;
 
 namespace RBACSample.Infrastructures.Repository;
 
@@ -15,10 +17,27 @@ public class UserRepository : Repository<UserEntity>, IUserRepository
 
     public async Task<UserEntity?> GetUserByUsername(string username)
     {
-        var user = await _dbContext.Users
-            .FirstOrDefaultAsync(item => item.Username == username);
+        var isConnection = CheckDatabaseConnection();
 
-        return user;
+        try
+        {
+            var user = await _dbContext.Users
+                .FirstOrDefaultAsync(item => item.Username == username);
+
+            return user;
+        }
+        catch (SocketException ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        catch (DbException ex)
+        {
+            throw new Exception(ex.Message);
+        }
+        catch (Exception ex)
+        {
+            throw new Exception(ex.Message);
+        }
     }
 
     public async Task<UserEntity?> GetUserWithRoleAndResourcesByUsername(string username)
@@ -36,5 +55,18 @@ public class UserRepository : Repository<UserEntity>, IUserRepository
     {
         await _dbContext.Users.AddAsync(user);
         await _dbContext.SaveChangesAsync();
+    }
+
+    public bool CheckDatabaseConnection()
+    {
+        try
+        {
+            _dbContext.Database.CanConnect();
+            return true;
+        }
+        catch (Exception)
+        {
+            return false;
+        }
     }
 }

@@ -1,16 +1,15 @@
-﻿using RBACSample.Views;
-using RBACSample.Views.Pages;
+﻿using RBACSample.Presentations.Views.Pages;
 
 namespace RBACSample.ViewModels;
 
 public partial class MainWindowViewModel : ObservableRecipient
 {
     [ObservableProperty]
-    private Page _currentPage;
+    private ContentControl _currentPage;
 
     public MainWindowViewModel(IServiceProvider serviceProvider)
     {
-        CurrentPage = serviceProvider.GetService<LoginPage>();
+        CurrentPage = serviceProvider.GetService<LoginView>();
 
         WeakReferenceMessenger.Default.Register<string>(
             typeof(MainWindowViewModel),
@@ -18,16 +17,16 @@ public partial class MainWindowViewModel : ObservableRecipient
         {
             switch (page)
             {
-                case nameof(LoginPage):
-                    CurrentPage = serviceProvider.GetRequiredService<LoginPage>();
+                case nameof(LoginView):
+                    CurrentPage = serviceProvider.GetRequiredService<LoginView>();
                     break;
 
-                case nameof(DashboardPage):
-                    CurrentPage = serviceProvider.GetRequiredService<DashboardPage>();
+                case nameof(DashboardView):
+                    CurrentPage = serviceProvider.GetRequiredService<DashboardView>();
                     break;
 
-                case nameof(RegisterPage):
-                    CurrentPage = serviceProvider.GetRequiredService<RegisterPage>();
+                case nameof(RegisterView):
+                    CurrentPage = serviceProvider.GetRequiredService<RegisterView>();
                     break;
             }
         });

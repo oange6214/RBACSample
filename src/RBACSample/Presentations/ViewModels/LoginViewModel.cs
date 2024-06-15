@@ -1,7 +1,7 @@
 ﻿using RBACSample.Applications.Services;
 using RBACSample.Domains.Dtos;
 using RBACSample.Domains.Enums;
-using RBACSample.Views.Pages;
+using RBACSample.Presentations.Views.Pages;
 
 namespace RBACSample.ViewModels;
 
@@ -54,7 +54,7 @@ public partial class LoginViewModel : ObservableRecipient
                     Role = userType
                 });
 
-                WeakReferenceMessenger.Default.Send<string>(nameof(DashboardPage));
+                WeakReferenceMessenger.Default.Send<string>(nameof(DashboardView));
             }
         }
         else
@@ -66,7 +66,7 @@ public partial class LoginViewModel : ObservableRecipient
     [RelayCommand]
     private async Task CreateUser()
     {
-        WeakReferenceMessenger.Default.Send<string>(nameof(RegisterPage));
+        WeakReferenceMessenger.Default.Send<string>(nameof(RegisterView));
         await Task.CompletedTask;
     }
 }

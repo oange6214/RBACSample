@@ -1,12 +1,12 @@
-﻿using RBACSample.Applications.Services;
+﻿using Npgsql.EntityFrameworkCore.PostgreSQL.Infrastructure;
+using RBACSample.Applications.Services;
 using RBACSample.Domains.Models;
 using RBACSample.Infrastructures.Data;
 using RBACSample.Infrastructures.Repository;
 using RBACSample.Presentations.ViewModels;
 using RBACSample.Presentations.Views;
+using RBACSample.Presentations.Views.Pages;
 using RBACSample.ViewModels;
-using RBACSample.Views;
-using RBACSample.Views.Pages;
 using RBACSample.Views.SubViews;
 
 namespace RBACSample;
@@ -34,7 +34,16 @@ public partial class App : Application
 
         // DbContext
         services.AddDbContext<RoleDbContext>(
-            options => options.UseNpgsql(config["ConnectionStrings:Role_DB"]));
+            options => options.UseNpgsql(
+                config["ConnectionStrings:Role_DB"],
+                options => options.EnableRetryOnFailure(
+                    maxRetryCount: 3,
+                    maxRetryDelay: TimeSpan.FromMilliseconds(100),
+                    errorCodesToAdd: null
+                    )
+                )
+            .UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking),
+            ServiceLifetime.Scoped);
 
         //Add repositories and services with appropriate lifetimes
         services.AddTransient<IAuthorizationService, AuthorizationService>();
@@ -49,16 +58,13 @@ public partial class App : Application
         services.AddScoped<RegisterViewModel>();
         services.AddScoped<DashboardViewModel>();
         services.AddScoped<LoginViewModel>();
-
         services.AddScoped<MainWindowViewModel>();
 
         // Register view
         services.AddScoped<IncomeView>();
-
-        // Register page
-        services.AddScoped<RegisterPage>();
-        services.AddScoped<DashboardPage>();
-        services.AddScoped<LoginPage>();
+        services.AddScoped<RegisterView>();
+        services.AddScoped<DashboardView>();
+        services.AddScoped<LoginView>();
 
         services.AddScoped<IWindow, MainWindow>();
     }
@@ -75,8 +81,6 @@ public partial class App : Application
     protected override async void OnExit(ExitEventArgs e)
     {
         await _host.StopAsync(TimeSpan.FromSeconds(3));
-
-        _host.Dispose();
 
         base.OnExit(e);
     }
